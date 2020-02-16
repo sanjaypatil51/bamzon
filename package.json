@@ -1,0 +1,23 @@
+{
+  "name": "bamzon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bamzonCusotmer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanjaypatil51/bamzon.git"
+  },
+  "author": "Sanjay Patil",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "2.18.1",
+    "inquirer": "7.0.4"
+  },
+  "bugs": {
+    "url": "https://github.com/sanjaypatil51/bamzon/issues"
+  },
+  "homepage": "https://github.com/sanjaypatil51/bamzon#readme"
+}
