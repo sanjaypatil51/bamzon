@@ -75,13 +75,15 @@ function askConsumer() {
 
     ]).then(function (answers) {
         var stockQuantity
+        var productSales
 
-        connection.query("select product_name,stock_quantity,price from products where item_id= ? ", [parseFloat(answers.select)], function (err, res) {
+        connection.query("select product_name,stock_quantity,price,product_sales from products where item_id= ? ", [parseFloat(answers.select)], function (err, res) {
             if (err) {
                 throw err
             }
             //console.log("---" + res[0].stock_quantity)
             stockQuantity = res[0].stock_quantity
+
 
 
             if (answers.quantity > stockQuantity) {
@@ -91,21 +93,27 @@ function askConsumer() {
             }
             else {
                 stockQuantity = stockQuantity - parseFloat(answers.quantity)
+                productSales = res[0].product_sales + parseFloat(answers.quantity) * res[0].price
+
                 connection.query("update products set ? where ?",
-                    [{
-                        stock_quantity: stockQuantity
-                    }, {
-                        item_id: answers.select
-                    }], function (err, resUpdate) {
+                    [
+                        {
+                            stock_quantity: stockQuantity,
+                            product_sales: productSales
+                        },
+                        {
+                            item_id: answers.select
+                        }
+                    ], function (err, resUpdate) {
 
                         if (err) {
                             throw err
                         }
-                        var totalPrice=res[0].price*answers.quantity
+                        var totalPrice = res[0].price * answers.quantity
                         //console.log(totalPrice)
-                        console.log("Order Detail\n"+"Item Purchased|"+"Quantity Purchased|"+"Price Per Unit|"+"Total Amount\n")
-                        console.log(res[0].product_name+"|"+answers.quantity+"|"+res[0].price+"|"+totalPrice)
-                        
+                        console.log("Order Detail\n" + "Item Purchased|" + "Quantity Purchased|" + "Price Per Unit|" + "Total Amount\n")
+                        console.log(res[0].product_name + "|" + answers.quantity + "|" + res[0].price + "|" + totalPrice)
+
                         connection.end()
 
                     })

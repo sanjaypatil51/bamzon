@@ -33,5 +33,37 @@ insert into products(product_name,department_name,price,stock_quantity)
 values("Samsung TV LED","Electronic",450,150);
 
 
+alter table products add product_sales INT;
+
+
+
+create table department(department_id INT primary key auto_increment,
+department_name varchar(30),
+over_head_costs int);
+
+insert into department(department_name,over_head_costs)
+values("Clothing",10000);
+
+insert into department(department_name,over_head_costs)
+values("Electronic",15000);
+
+insert into department(department_name,over_head_costs)
+values("Electric",50000);
+
+insert into department(department_name,over_head_costs)
+values("Sport",75000);
+
+
+
+select * from products;
+
+select * from department
+
+
+SELECT stock_quantity from products where item_id=1
+
+SELCET * from products where stock_quantity<=5
+
+
 
 
