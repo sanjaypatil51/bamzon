@@ -29,12 +29,13 @@ function selectItems() {
     console.log("Selecting all products...\n");
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
-        console.log(res)
+        console.log("Product id||Product Name||Price/unit\n")
         for (i in res) {
             productId.push(res[i].item_id)
+            console.log(res[i].item_id+"||"+res[i].product_name+"||"+res[i].price)
             //localStorage.setItem(res[i].item_id,res[i].stock_quanitity)
         }
-        console.log(productId)
+        //console.log(productId)
         //connection.end()
         askConsumer()
     });
@@ -45,18 +46,10 @@ function askConsumer() {
     inquirer.prompt([
 
         {
-            type: "input",
+            type: "list",
             name: "select",
             message: "Please select ID of product to buy:",
-            validate: function (value) {
-                if (isNaN(value) === false && productId.includes(parseFloat(value))) {
-                    return true
-
-                }
-                else {
-                    return false
-                }
-            }
+            choices:productId
         },
 
         {
@@ -114,13 +107,38 @@ function askConsumer() {
                         console.log("Order Detail\n" + "Item Purchased|" + "Quantity Purchased|" + "Price Per Unit|" + "Total Amount\n")
                         console.log(res[0].product_name + "|" + answers.quantity + "|" + res[0].price + "|" + totalPrice)
 
-                        connection.end()
+                        //connection.end()
+                        repeat()
 
                     })
 
             }
 
         })
+    })
+}
+
+function repeat() {
+
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "select",
+            message: "Want to buy more product?",
+            choices: ["Yes", "No"]
+        }
+
+    ]).then(function (answers) {
+
+        switch (answers.select) {
+            case "Yes":
+                askConsumer()
+                break
+            case "No":
+                connection.end()
+                break
+
+        }
     })
 }
 start()
